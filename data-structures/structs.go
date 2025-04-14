@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 )
 
@@ -20,148 +18,132 @@ type Produto struct {
 	ID          int     `json:"id"`
 	Nome        string  `json:"nome"`
 	Preco       float64 `json:"preco"`
-	Estoque     int     `json:"estoque"`
 	Disponivel  bool    `json:"disponivel"`
-	Descricao   string  `json:"descricao,omitempty"` // omitempty: campo será omitido se vazio
-	Categorias  []string `json:"categorias"`
+	Categorias  []string `json:"categorias,omitempty"`
 }
 
-// Struct aninhada (composição)
-type Endereco struct {
-	Rua        string
-	Numero     int
-	Cidade     string
-	Estado     string
-	CEP        string
-}
-
-type Cliente struct {
-	ID         int
-	Nome       string
-	Email      string
-	Telefone   string
-	Endereco   Endereco // Struct aninhada
-}
-
-// Método de uma struct
+// Método de uma struct (receiver function)
 func (p Pessoa) Saudacao() string {
 	return fmt.Sprintf("Olá, meu nome é %s e tenho %d anos", p.Nome, p.Idade)
 }
 
-// Método com ponteiro (permite modificar a struct)
+// Método com ponteiro receiver (modifica a struct original)
 func (p *Pessoa) FazerAniversario() {
 	p.Idade++
-	log.Printf("Aniversário de %s comemorado! Nova idade: %d", p.Nome, p.Idade)
 }
 
-// Struct com campo anônimo (embedded struct)
+// Struct aninhada
+type Endereco struct {
+	Rua     string
+	Numero  int
+	Cidade  string
+	Estado  string
+	CEP     string
+}
+
+type Cliente struct {
+	ID       int
+	Nome     string
+	Email    string
+	Endereco Endereco  // Struct aninhada
+	Desde    time.Time
+}
+
+// Struct com composição (embedded struct)
 type Funcionario struct {
-	Pessoa     // Embedded struct - herda campos e métodos
-	Cargo      string
-	Salario    float64
+	Pessoa    // Embedding da struct Pessoa
+	Cargo     string
+	Salario   float64
 }
 
 func main() {
-	// Inicializando uma struct básica
-	log.Println("Iniciando exemplo de structs...")
-	
-	pessoa1 := Pessoa{
+	// Inicialização de struct
+	p1 := Pessoa{
 		Nome:      "João Silva",
 		Idade:     30,
-		Endereco:  "Rua ABC, 123",
+		Endereco:  "Rua A, 123",
 		CreatedAt: time.Now(),
 	}
+	fmt.Println("Pessoa 1:", p1)
+
+	// Inicialização pela ordem dos campos (não recomendado)
+	p2 := Pessoa{"Maria Souza", 25, "Av B, 456", time.Now()}
+	fmt.Println("Pessoa 2:", p2)
+
+	// Struct parcialmente inicializada
+	var p3 Pessoa
+	p3.Nome = "Pedro Santos"
+	p3.Idade = 40
+	fmt.Println("Pessoa 3:", p3)
+
+	// Usando métodos de struct
+	fmt.Println(p1.Saudacao())
 	
-	fmt.Println("Pessoa criada:", pessoa1)
-	
-	// Acessando campos
-	fmt.Println("Nome:", pessoa1.Nome)
-	fmt.Println("Idade:", pessoa1.Idade)
-	
-	// Inicialização parcial
-	pessoa2 := Pessoa{Nome: "Maria Souza"}
-	fmt.Println("\nPessoa com inicialização parcial:", pessoa2)
-	
-	// Inicialização por ordem (não recomendado - depende da ordem dos campos)
-	pessoa3 := Pessoa{"Pedro Santos", 25, "Rua XYZ, 456", time.Now()}
-	fmt.Println("\nPessoa com inicialização por ordem:", pessoa3)
-	
-	// Usando métodos
-	saudacao := pessoa1.Saudacao()
-	fmt.Println("\nSaudação:", saudacao)
-	
-	// Método que modifica a struct (usando ponteiro)
-	fmt.Printf("\nIdade antes do aniversário: %d\n", pessoa1.Idade)
-	pessoa1.FazerAniversario()
-	fmt.Printf("Idade após o aniversário: %d\n", pessoa1.Idade)
-	
+	// Usando método que modifica a struct (com ponteiro)
+	fmt.Printf("Idade antes: %d\n", p1.Idade)
+	p1.FazerAniversario()
+	fmt.Printf("Idade depois: %d\n", p1.Idade)
+
 	// Struct aninhada
 	cliente := Cliente{
-		ID:       1,
-		Nome:     "Ana Costa",
-		Email:    "ana@email.com",
-		Telefone: "(11) 99999-9999",
+		ID:    1,
+		Nome:  "Ana Costa",
+		Email: "ana@exemplo.com",
 		Endereco: Endereco{
-			Rua:    "Avenida Paulista",
-			Numero: 1000,
+			Rua:    "Rua das Flores",
+			Numero: 42,
 			Cidade: "São Paulo",
 			Estado: "SP",
-			CEP:    "01310-100",
+			CEP:    "01234-567",
 		},
+		Desde: time.Date(2022, time.January, 15, 0, 0, 0, 0, time.UTC),
 	}
-	fmt.Printf("\nCliente: %+v\n", cliente)  // %+v mostra nomes dos campos
-	fmt.Println("Endereço do cliente:", cliente.Endereco.Rua, cliente.Endereco.Numero)
-	
-	// Embedded struct (herança de campo/método)
+	fmt.Println("\nCliente:", cliente)
+	fmt.Println("Endereço:", cliente.Endereco)
+	fmt.Println("CEP:", cliente.Endereco.CEP)
+
+	// Usando composição (embedded struct)
 	funcionario := Funcionario{
 		Pessoa: Pessoa{
-			Nome:     "Carlos Oliveira",
-			Idade:    35,
-			Endereco: "Rua DEF, 789",
+			Nome:  "Carlos Gomes",
+			Idade: 35,
 		},
 		Cargo:   "Desenvolvedor",
-		Salario: 5000.00,
+		Salario: 5000.0,
+	}
+	fmt.Println("\nFuncionário:", funcionario)
+	fmt.Println("Nome do funcionário:", funcionario.Nome)  // Acesso direto por causa do embedding
+	fmt.Println("Idade do funcionário:", funcionario.Idade)
+
+	// Chamando método da struct embedded
+	fmt.Println(funcionario.Saudacao())
+	
+	// Struct como um mapa de campos
+	type Dinamico struct {
+		Campos map[string]interface{}
 	}
 	
-	fmt.Printf("\nFuncionário: %+v\n", funcionario)
+	d := Dinamico{
+		Campos: map[string]interface{}{
+			"nome":   "Teste",
+			"valor":  123,
+			"ativo":  true,
+			"tags":   []string{"a", "b", "c"},
+		},
+	}
+	fmt.Println("\nStruct dinâmica:", d)
+	fmt.Println("Campo nome:", d.Campos["nome"])
+	fmt.Println("Campo valor:", d.Campos["valor"])
 	
-	// Acesso direto a campos embedados
-	fmt.Println("Nome do funcionário:", funcionario.Nome)  // Acesso direto ao campo da struct embedada
-	fmt.Println("Saudação do funcionário:", funcionario.Saudacao())
-	
-	// Convertendo struct para JSON
-	produto := Produto{
-		ID:         1,
-		Nome:       "Notebook",
-		Preco:      3500.99,
-		Estoque:    10,
-		Disponivel: true,
-		Categorias: []string{"Eletrônicos", "Computadores"},
+	// Slice de structs
+	pessoas := []Pessoa{
+		{Nome: "Alice", Idade: 32},
+		{Nome: "Bob", Idade: 28},
+		{Nome: "Carol", Idade: 45},
 	}
 	
-	jsonBytes, err := json.MarshalIndent(produto, "", "  ")
-	if err != nil {
-		log.Fatalf("Erro ao converter para JSON: %v", err)
+	fmt.Println("\nLista de pessoas:")
+	for i, p := range pessoas {
+		fmt.Printf("%d: %s tem %d anos\n", i+1, p.Nome, p.Idade)
 	}
-	fmt.Println("\nProduto em JSON:")
-	fmt.Println(string(jsonBytes))
-	
-	// JSON para struct
-	jsonStr := `{
-	  "id": 2,
-	  "nome": "Smartphone",
-	  "preco": 1999.99,
-	  "estoque": 15,
-	  "disponivel": true,
-	  "categorias": ["Eletrônicos", "Celulares"]
-	}`
-	
-	var novoProduto Produto
-	if err := json.Unmarshal([]byte(jsonStr), &novoProduto); err != nil {
-		log.Fatalf("Erro ao converter JSON para struct: %v", err)
-	}
-	
-	fmt.Printf("\nProduto deserializado do JSON: %+v\n", novoProduto)
-	
-	log.Println("Exemplo de structs concluído com sucesso!")
 }
