@@ -29,6 +29,14 @@ Este repositório contém vários exemplos de código em Go demonstrando casos d
    ./hello
    ```
 
+4. Para executar os testes:
+   ```bash
+   cd testing
+   go test -v
+   go test -bench=.  # Executa benchmarks
+   go test -cover    # Verifica cobertura de testes
+   ```
+
 ## Estrutura do Projeto
 
 - `basic/`: Conceitos básicos da linguagem
@@ -57,6 +65,22 @@ Este repositório contém vários exemplos de código em Go demonstrando casos d
 - `web/`: Programação web
   - `simple-server.go`: Servidor HTTP simples
   - `rest-client.go`: Cliente REST
+
+- `logging/`: Exemplos de logging
+  - `logger.go`: Como usar logs em Go (pacote log padrão)
+
+- `testing/`: Exemplos de testes unitários
+  - `calc.go` e `calc_test.go`: Exemplo básico de testes unitários
+  - `service.go` e `service_test.go`: Exemplo de mocks em testes
+
+## Verificação dos Exemplos
+
+Todos os exemplos foram testados e verificados quanto à sua execução. Os exemplos seguem boas práticas de Go e incluem:
+
+- Código comentado para facilitar o entendimento
+- Exemplos de técnicas de logging para melhor observabilidade
+- Testes unitários para validação de componentes
+- Uso de mocks para testes isolados
 
 ## Contribuições
 
