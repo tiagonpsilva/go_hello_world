@@ -57,6 +57,9 @@ Este repositório contém vários exemplos de código em Go demonstrando casos d
   - `waitgroups.go`: Sincronização com WaitGroups
   - `mutex.go`: Exclusão mútua com Mutex
 
+- `error-handling/`: Tratamento de erros
+  - `errors.go`: Exemplos de criação e manipulação de erros
+
 - `file-handling/`: Manipulação de arquivos
   - `read-file.go`: Leitura de arquivos
   - `write-file.go`: Escrita em arquivos
@@ -79,6 +82,7 @@ Todos os exemplos foram testados e verificados quanto à sua execução. Os exem
 
 - Código comentado para facilitar o entendimento
 - Exemplos de técnicas de logging para melhor observabilidade
+- Tratamento adequado de erros seguindo idiomas do Go
 - Testes unitários para validação de componentes
 - Uso de mocks para testes isolados
 
