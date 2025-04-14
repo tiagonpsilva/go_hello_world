@@ -42,7 +42,7 @@ func main() {
 
 	// Exemplo de for range (para arrays/slices)
 	fmt.Println("\nLoop com range:")
-	numeros := []int{10, 20, 30, 40,, 50}
+	numeros := []int{10, 20, 30, 40, 50}
 	for indice, valor := range numeros {
 		fmt.Printf("numeros[%d] = %d\n", indice, valor)
 	}
