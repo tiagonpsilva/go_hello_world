@@ -1,31 +1,66 @@
-# Go Hello World
+# Go Exemplos
 
-Um simples exemplo de Hello World em Go.
+Coleção de exemplos de código em Go para casos de uso comuns.
 
 ## Descrição
 
-Este repositório contém um programa básico em Go que imprime "Hello World" no console.
+Este repositório contém vários exemplos de código em Go demonstrando casos de uso comuns, desde o básico "Hello World" até operações mais avançadas como manipulação de arquivos, concorrência, HTTP e manipulação de JSON.
 
-## Como executar
+## Pré-requisitos
 
-1. Certifique-se de ter o Go instalado (https://golang.org/doc/install)
-2. Clone este repositório
-3. Execute o programa:
+- [Go](https://golang.org/doc/install) instalado (versão 1.18+ recomendada)
 
-```bash
-go run main.go
-```
+## Como executar os exemplos
 
-Ou compile e execute:
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/tiagonpsilva/go_hello_world.git
+   cd go_hello_world
+   ```
 
-```bash
-go build -o hello
-./hello
-```
+2. Execute um exemplo específico:
+   ```bash
+   go run basic/hello.go
+   ```
+
+3. Ou você pode compilar e executar:
+   ```bash
+   go build -o hello basic/hello.go
+   ./hello
+   ```
 
 ## Estrutura do Projeto
 
-- `main.go`: Arquivo principal contendo o código-fonte Go
+- `basic/`: Conceitos básicos da linguagem
+  - `hello.go`: Exemplo clássico Hello World
+  - `variables.go`: Declaração e tipos de variáveis 
+  - `control-flow.go`: Estruturas de controle (if, for, switch)
+  - `functions.go`: Funções e retornos múltiplos
+
+- `data-structures/`: Estruturas de dados comuns
+  - `arrays.go`: Arrays e slices
+  - `maps.go`: Mapas (dicionários)
+  - `structs.go`: Estruturas (structs)
+  - `interfaces.go`: Interfaces e polimorfismo
+
+- `concurrency/`: Concorrência e paralelismo
+  - `goroutines.go`: Goroutines básicas
+  - `channels.go`: Comunicação via channels
+  - `waitgroups.go`: Sincronização com WaitGroups
+  - `mutex.go`: Exclusão mútua com Mutex
+
+- `file-handling/`: Manipulação de arquivos
+  - `read-file.go`: Leitura de arquivos
+  - `write-file.go`: Escrita em arquivos
+  - `json-handling.go`: Codificação e decodificação JSON
+
+- `web/`: Programação web
+  - `simple-server.go`: Servidor HTTP simples
+  - `rest-client.go`: Cliente REST
+
+## Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request com novos exemplos ou melhorias.
 
 ## Autor
 
